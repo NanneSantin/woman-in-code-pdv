@@ -1,5 +1,5 @@
 const express = require('express');
-const validateRequestBody = require('./midlewares/validateRequestBody');
+const validateRequestBody = require('./middlewares/validateRequestBody');
 const userSchema = require('./validations/userSchema');
 const { registerUser } = require('./controllers/users');
 
