@@ -51,7 +51,17 @@ const loginUser = async (request, response) => {
     }
 }
 
+const detailUser = async (request, response) => {
+    try {
+        const { id, nome, email } = request.usuario;
+        return response.status(200).json({ id, nome, email });
+    } catch (error) {
+        return response.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    detailUser
 }
