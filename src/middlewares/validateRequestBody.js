@@ -7,4 +7,6 @@ const validateRequestBody = joiSchema => async (request, response, next) => {
     }
 }
 
-module.exports = validateRequestBody
+module.exports = {
+    validateRequestBody
+}
