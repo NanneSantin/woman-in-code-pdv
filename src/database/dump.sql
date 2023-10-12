@@ -23,3 +23,6 @@ INSERT INTO categorias (categorias) VALUES
     ('Moda'),
     ('Bebê'),
     ('Games');
+
+ALTER TABLE categorias
+RENAME COLUMN categorias TO categoria;
