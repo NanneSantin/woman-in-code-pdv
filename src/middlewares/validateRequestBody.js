@@ -3,7 +3,7 @@ const validateRequestBody = joiSchema => async (request, response, next) => {
         await joiSchema.validateAsync(request.body);
         next();
     } catch (error) {
-        return response.status(500).json(error.message);
+        return response.status(400).json(error.message);
     }
 }
 

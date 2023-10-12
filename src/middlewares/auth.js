@@ -1,8 +1,7 @@
 const knex = require('../connection');
 const jwt = require('jsonwebtoken');
-const senhaJwt = require('../senhaJWT');
 
-const authentication = async (request, response, next) => {
+const validateAuthentication = async (request, response, next) => {
     try {
         const { authorization } = request.headers;
 
@@ -12,7 +11,7 @@ const authentication = async (request, response, next) => {
 
         const token = authorization.split(' ')[1];
 
-        const { id } = jwt.verify(token, senhaJwt);
+        const { id } = jwt.verify(token, process.env.SENHA_HASH);
 
         const userFound = await knex('usuarios').where({ id });
 
@@ -20,19 +19,22 @@ const authentication = async (request, response, next) => {
             return response.status(401).json({ message: 'Usuário não encontrado :/' })
         }
 
-        const { senha: _, ...usuario } = userFound[0];
-
-        request.userID = id;
-
-        request.usuario = usuario;
+        request.user = userFound[0];
 
         next();
-
     } catch (error) {
-        return response.status(401).json({ message: 'Não autorizado.' })
+        if (error.name === 'JsonWebTokenError') {
+            return response.status(401).json({ message: 'Token inválido!' });
+        }
+
+        if (error.name === 'TokenExpiredError') {
+            return response.status(401).json({ message: 'Token expirado!' });
+        }
+
+        return response.status(500).json({ message: 'Erro interno do servidor.' });
     }
 }
 
 module.exports = {
-    authentication
+    validateAuthentication
 }
