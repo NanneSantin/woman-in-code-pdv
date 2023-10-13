@@ -12,3 +12,17 @@ CREATE TABLE "categorias"(
     "id" SERIAL PRIMARY KEY NOT NULL,
     "categorias" VARCHAR(255) NOT NULL
 );
+
+INSERT INTO categorias (categorias) VALUES
+    ('Informática'),
+    ('Celulares'),
+    ('Beleza e Perfumaria'),
+    ('Mercado'),
+    ('Livros e Papelaria'),
+    ('Brinquedos'),
+    ('Moda'),
+    ('Bebê'),
+    ('Games');
+
+ALTER TABLE categorias
+RENAME COLUMN categorias TO categoria;
