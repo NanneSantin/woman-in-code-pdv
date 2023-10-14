@@ -16,7 +16,7 @@ const validateAuthentication = async (request, response, next) => {
     const userFound = await knex('usuarios').where({ id });
 
     if (userFound.length < 1) {
-      return response.status(401).json({ message: 'Usuário não encontrado :/' })
+      return response.status(401).json({ message: 'Usuário não encontrado.' })
     }
 
     request.user = userFound[0];
