@@ -10,7 +10,7 @@ CREATE TABLE "usuarios"(
 
 CREATE TABLE "categorias"(
     "id" SERIAL PRIMARY KEY NOT NULL,
-    "categorias" VARCHAR(255) NOT NULL
+    "categoria" VARCHAR(255) NOT NULL
 );
 
 INSERT INTO categorias (categorias) VALUES
@@ -23,6 +23,3 @@ INSERT INTO categorias (categorias) VALUES
     ('Moda'),
     ('Bebê'),
     ('Games');
-
-ALTER TABLE categorias
-RENAME COLUMN categorias TO categoria;
