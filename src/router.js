@@ -1,11 +1,14 @@
-const express = require("express");
-const { registerUser, detailUser, updateUser } = require("./controllers/users");
-const { validateRequestBody } = require("./middlewares/validateRequestBody");
-const loginSchema = require("./validations/loginSchema");
-const userSchema = require("./validations/userSchema");
-const authenticateUser = require("./controllers/login");
-const { validateAuthentication } = require("./middlewares/auth");
-const listCategories = require("./controllers/categories");
+const express = require('express');
+
+const { registerUser, detailUser, updateUser } = require('./controllers/users');
+const authenticateUser = require('./controllers/login');
+const listCategories = require('./controllers/categories');
+
+const validateRequestBody = require('./middlewares/validateRequestBody');
+const validateAuthentication = require('./middlewares/auth');
+
+const loginSchema = require('./validations/loginSchema');
+const userSchema = require('./validations/userSchema');
 
 const route = express();
 

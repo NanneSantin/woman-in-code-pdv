@@ -3,9 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const authenticateUser = async (request, response) => {
-  const { email, senha } = request.body;
-
   try {
+    const { email, senha } = request.body;
     const userFound = await knex('usuarios').where({ email });
     const user = userFound[0];
 

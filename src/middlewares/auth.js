@@ -35,6 +35,4 @@ const validateAuthentication = async (request, response, next) => {
   }
 }
 
-module.exports = {
-  validateAuthentication
-}
+module.exports = validateAuthentication;

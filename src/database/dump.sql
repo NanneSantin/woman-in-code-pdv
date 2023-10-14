@@ -13,7 +13,7 @@ CREATE TABLE "categorias"(
     "categoria" VARCHAR(255) NOT NULL
 );
 
-INSERT INTO categorias (categorias) VALUES
+INSERT INTO categorias (categoria) VALUES
     ('Informática'),
     ('Celulares'),
     ('Beleza e Perfumaria'),
