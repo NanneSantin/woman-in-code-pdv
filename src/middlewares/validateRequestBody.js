@@ -1,14 +1,12 @@
-const validateRequestBody = (joiSchema) => async (request, response, next) => {
-  // console.log(joiSchema);
+const validateRequestBody = joiSchema => async (request, response, next) => {
   try {
     await joiSchema.validateAsync(request.body);
-    console.log("entrou no try");
     next();
   } catch (error) {
-    return response.status(400).json({ error: error.message });
+    return response.status(400).json(error.message);
   }
-};
+}
 
 module.exports = {
-  validateRequestBody,
-};
+  validateRequestBody
+}

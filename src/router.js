@@ -8,13 +8,14 @@ const { validateAuthentication } = require("./middlewares/auth");
 const listCategories = require("./controllers/categories");
 
 const route = express();
-//
-route.post("/login", validateRequestBody(loginSchema), authenticateUser);
-route.post("/usuario", validateRequestBody(userSchema), registerUser);
-route.get("/categoria", listCategories);
+
+route.post('/usuario', validateRequestBody(userSchema), registerUser);
+route.post('/login', validateRequestBody(loginSchema), authenticateUser);
+route.get('/categoria', listCategories);
 
 route.use(validateAuthentication);
 
-route.get("/usuario", detailUser);
-route.put("/usuario", validateRequestBody(userSchema), updateUser);
+route.get('/usuario', detailUser);
+route.put('/usuario', validateRequestBody(userSchema), updateUser);
+
 module.exports = route;
