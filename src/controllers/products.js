@@ -32,6 +32,12 @@ const updateProduct = async(request, response) => {
         }
         //*
 
+        const descriptionExist = await knex('produtos').where({ descricao }).andWhere('id', '!=', id).returning('*').first();
+
+        if(descriptionExist){
+            return response.status(409).json({ mensagem: "Produto já cadastrado."});
+        }
+
         const updatedProduct = await knex('produtos')
         .where({ id })
         .update({ descricao, quantidade_estoque, valor, categoria_id })

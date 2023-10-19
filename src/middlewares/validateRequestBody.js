@@ -4,7 +4,6 @@ const validateRequestBody = joiSchema => async (request, response, next) => {
 
     next();
   } catch (error) {
-    console.log('erro 1')
     return response.status(400).json(error.message);
   }
 }
