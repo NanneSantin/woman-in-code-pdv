@@ -8,20 +8,15 @@ const validateRequestBody = require("./middlewares/validateRequestBody");
 const validateAuthentication = require("./middlewares/auth");
 const validateCategoryExist = require("./middlewares/validateCategoryExist");
 const validateCustomerExist = require('./middlewares/validateCustomerExist');
+const validateProductIdExist = require('./middlewares/validateProductID');
 
 const loginSchema = require("./validations/loginSchema");
 const userSchema = require("./validations/userSchema");
 const productSchema = require("./validations/productSchema");
 const customerSchema = require('./validations/customerSchema');
 
-const {
-  registerProduct,
-  updateProduct,
-  removeProduct,
-  detailProduct,
-  listProducts,
-} = require("./controllers/products");
-const { registerCustomer, updateCustomer } = require('./controllers/customer');
+const { registerProduct, updateProduct, removeProduct, detailProduct, listProducts } = require("./controllers/products");
+const { registerCustomer, updateCustomer, listCustomers, detailCustomer } = require('./controllers/customer');
 
 const route = express();
 
@@ -43,14 +38,17 @@ route.post(
 route.put(
   "/produto/:id",
   validateRequestBody(productSchema),
+  validateProductIdExist,
   validateCategoryExist,
   updateProduct
 );
-route.delete("/produto/:id", removeProduct);
-route.get("/produto/:id", detailProduct);
-route.get("/produto", listProducts);
+route.delete("/produto/:id", validateProductIdExist, removeProduct);
+route.get("/produto/:id", validateProductIdExist, detailProduct);
+route.get("/produto", validateCategoryExist, listProducts);
 
 route.post('/cliente', validateRequestBody(customerSchema), registerCustomer);
 route.put('/cliente/:id', validateRequestBody(customerSchema), validateCustomerExist, updateCustomer);
+route.get('/cliente', listCustomers);
+route.get('/cliente/:id', validateCustomerExist, detailCustomer);
 
 module.exports = route;
