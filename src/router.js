@@ -12,7 +12,10 @@ const userSchema = require('./validations/userSchema');
 
 const productSchema = require('./validations/productSchema');
 const validateCategoryExist = require('./middlewares/validateCategoryExist');
-const { registerProduct, updateProduct} = require('./controllers/products');
+const { registerProduct, updateProduct } = require('./controllers/products');
+const customerSchema = require('./validations/customerSchema');
+const { registerCustomer, updateCustomer } = require('./controllers/customer');
+const validateCustomerExist = require('./middlewares/validateCustomerExist');
 
 const route = express();
 
@@ -24,6 +27,9 @@ route.use(validateAuthentication);
 
 route.get('/usuario', detailUser);
 route.put('/usuario', validateRequestBody(userSchema), updateUser);
+
+route.post('/cliente', validateRequestBody(customerSchema), registerCustomer);
+route.put('/cliente/:id', validateRequestBody(customerSchema), validateCustomerExist, updateCustomer);
 
 route.post('/produto', validateRequestBody(productSchema), validateCategoryExist, registerProduct);
 route.put('/produto/:id', validateRequestBody(productSchema), validateCategoryExist, updateProduct);
