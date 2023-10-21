@@ -6,12 +6,14 @@ const listCategories = require("./controllers/categories");
 
 const validateRequestBody = require("./middlewares/validateRequestBody");
 const validateAuthentication = require("./middlewares/auth");
+const validateCategoryExist = require("./middlewares/validateCategoryExist");
+const validateCustomerExist = require('./middlewares/validateCustomerExist');
 
 const loginSchema = require("./validations/loginSchema");
 const userSchema = require("./validations/userSchema");
-
 const productSchema = require("./validations/productSchema");
-const validateCategoryExist = require("./middlewares/validateCategoryExist");
+const customerSchema = require('./validations/customerSchema');
+
 const {
   registerProduct,
   updateProduct,
@@ -19,6 +21,7 @@ const {
   detailProduct,
   listProducts,
 } = require("./controllers/products");
+const { registerCustomer, updateCustomer } = require('./controllers/customer');
 
 const route = express();
 
@@ -43,11 +46,11 @@ route.put(
   validateCategoryExist,
   updateProduct
 );
-
 route.delete("/produto/:id", removeProduct);
-
 route.get("/produto/:id", detailProduct);
-
 route.get("/produto", listProducts);
+
+route.post('/cliente', validateRequestBody(customerSchema), registerCustomer);
+route.put('/cliente/:id', validateRequestBody(customerSchema), validateCustomerExist, updateCustomer);
 
 module.exports = route;

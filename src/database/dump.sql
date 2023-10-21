@@ -38,7 +38,7 @@ CREATE TABLE clientes (
   id SERIAL PRIMARY KEY NOT NULL UNIQUE,
   nome VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL UNIQUE,
-  cpf INT NOT NULL UNIQUE,
+  cpf VARCHAR(14) NOT NULL UNIQUE,
   cep INT,
   rua TEXT,
   numero INT,
@@ -46,4 +46,3 @@ CREATE TABLE clientes (
   cidade VARCHAR(255),
   estado CHAR(2)
 );
-
