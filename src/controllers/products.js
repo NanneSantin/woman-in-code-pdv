@@ -90,14 +90,14 @@ const listProducts = async (request, response) => {
     const query = knex('produtos');
 
     if (!categoria_id) {
-      const productList = await query.select('*');
+      const productList = await query.select('*').orderBy('id', 'asc');
 
       return response.status(200).json(productList);
     }
 
     if (!Array.isArray(categoria_id)) {
       query.where('categoria_id', categoria_id);
-      productList = await query.select('*');
+      productList = await query.select('*').orderBy('id', 'asc');
     }
 
     if (Array.isArray(categoria_id) && categoria_id.length > 0) {
@@ -106,7 +106,7 @@ const listProducts = async (request, response) => {
       });
 
       query.whereIn('categoria_id', categoria_ids);
-      productList = await query.select('*');
+      productList = await query.select('*').orderBy('id', 'asc');
     }
 
     if (productList.length == 0) {
