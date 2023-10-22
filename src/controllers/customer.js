@@ -7,27 +7,19 @@ const registerCustomer = async (request, response) => {
         const emailAlreadyExists = await knex('clientes').where({ email }).first();
 
         if (emailAlreadyExists) {
-            return response.status(409).json({ message: 'Ocorreu um problema ao cadastrar o email. Por favor, escolha outro ou tente fazer login.' });
+            return response.status(409).json({ message: 'E-mail já está sendo utilizado em outro cadastro.' });
         }
 
         const cpfAlreadyExists = await knex('clientes').where({ cpf }).first();
 
         if (cpfAlreadyExists) {
-            return response.status(409).json({ message: 'Ocorreu um problema ao cadastrar o cpf. Por favor, escolha outro ou tente fazer login.' });
+            return response.status(409).json({ message: 'CPF já cadastrado.' });
         }
-
-        // const addressData = await getAddress(cep);
-        // addressHandler
-
-        // const addressFormated = formatAddress(addressData);
-
-        // const encryptedPassword = await bcrypt.hash(senha, 10);
 
         const insertCustomer = await knex('clientes').insert({ nome, email, cpf, cep, rua, numero, bairro, cidade, estado }).returning(['id', 'nome', 'email']);
 
         return response.status(201).json(insertCustomer[0]);
     } catch (error) {
-        console.log(error);
         return response.status(500).json({ message: 'Erro interno do servidor.' });
     }
 }
@@ -41,15 +33,14 @@ const updateCustomer = async (request, response) => {
 
         if (emailAlreadyExists && emailAlreadyExists.id != id) {
             return response.status(409).json({
-                message: 'Ocorreu um problema ao atualizar o email. Por favor, escolha outro!',
+                message: 'E-mail já está sendo utilizado em outro cadastro.',
             });
         }
 
         const cpfAlreadyExists = await knex('clientes').where({ cpf }).first();
 
-
         if (cpfAlreadyExists && cpfAlreadyExists.id != id) {
-            return response.status(409).json({ message: 'Ocorreu um problema ao cadastrar o cpf. Por favor, escolha outro ou tente fazer login.' });
+            return response.status(409).json({ message: 'CPF já cadastrado.' });
         }
 
         const updatedCustomer = await knex('clientes')
@@ -61,27 +52,25 @@ const updateCustomer = async (request, response) => {
     } catch (error) {
         return response.status(500).json({ message: 'Erro interno do servidor.' });
     }
-};
+}
 
 const listCustomers = async (request, response) => {
     try {
         const list = await knex('clientes').select('nome', 'email', 'cpf');
 
         return response.status(200).json(list);
-
     } catch (error) {
         return response.status(500).json({ message: 'Erro interno do servidor.' })
     }
 }
 
 const detailCustomer = async (request, response) => {
-    const id = request.params.id;
-
     try {
+        const id = request.params.id;
+
         const customer = await knex('clientes').where('id', id).first();
 
         return response.status(200).json(customer);
-
     } catch (error) {
         return response.status(500).json({ message: 'Erro interno do servidor.' })
     }

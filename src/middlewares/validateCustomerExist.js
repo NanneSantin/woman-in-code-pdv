@@ -2,13 +2,12 @@ const knex = require('../connection')
 
 const validateCustomerExist = async (request, response, next) => {
     try {
-
         const { id } = request.params
 
         const customerExist = await knex('clientes').where({ id }).first();
 
         if (!customerExist) {
-            return response.status(404).json({ mensagem: "Nenhum cliente com esse ID foi encontrado" });
+            return response.status(404).json({ mensagem: 'Nenhum cliente com esse ID foi encontrado.' });
         }
 
         next();

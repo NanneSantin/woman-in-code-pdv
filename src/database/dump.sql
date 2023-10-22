@@ -30,7 +30,7 @@ CREATE TABLE produtos(
   id SERIAL PRIMARY KEY NOT NULL UNIQUE,
   descricao TEXT UNIQUE NOT NULL,
   quantidade_estoque INT NOT NULL DEFAULT 0,
-  valor INT NOT NULL,
+  valor FLOAT NOT NULL,
   categoria_id INT NOT NULL REFERENCES categorias(id)
 );
 

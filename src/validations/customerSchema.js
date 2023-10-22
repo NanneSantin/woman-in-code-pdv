@@ -15,14 +15,27 @@ const customerSchema = Joi.object({
   cpf: Joi.string().pattern(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$/).required().messages({
     'any.required': 'O campo CPF é obrigatório!',
     'string.empty': 'O campo CPF é obrigatório!',
+    'string.base': 'O campo CPF deve ser do tipo texto!',
     'string.pattern.base': 'O campo CPF deve estar no formato "999.999.999-99", pontos e traço!'
   }),
-  cep: Joi.number().optional(),
-  rua: Joi.string().optional(),
+  cep: Joi.number().optional().min(10000000).max(99999999).messages({
+    'number.max': "O CEP deve conter 8 digitos.",
+    'number.min': "O CEP deve conter 8 digitos."
+  }),
+  rua: Joi.string().optional().messages({
+    'string.base': 'A rua deve ser do tipo texto!'
+  }),
   numero: Joi.number().optional(),
-  bairro: Joi.string().optional(),
-  cidade: Joi.string().optional(),
-  estado: Joi.string().optional()
+  bairro: Joi.string().optional().messages({
+    'string.base': 'O bairro deve ser do tipo texto!'
+  }),
+  cidade: Joi.string().optional().messages({
+    'string.base': 'A cidade deve ser do tipo texto!'
+  }),
+  estado: Joi.string().length(2).optional().messages({
+    'string.base': 'O Estado deve ser do tipo texto!',
+    'string.length': 'Informe a sigla do Estado.'
+  })
 });
 
 module.exports = customerSchema;

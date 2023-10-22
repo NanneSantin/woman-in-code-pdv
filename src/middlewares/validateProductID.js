@@ -1,9 +1,9 @@
 const knex = require('../connection');
 
 const validateProductIdExist = async (request, response, next) => {
-    const id = request.params.id;
-
     try {
+        const id = request.params.id;
+
         const product = await knex('produtos').where('id', id).first();
 
         if (!product) {
@@ -14,7 +14,7 @@ const validateProductIdExist = async (request, response, next) => {
 
         next();
     } catch (error) {
-        return response.status(500).json({ message: 'Erro interno do servidor :/' })
+        return response.status(500).json({ message: 'Erro interno do servidor.' })
     }
 }
 
