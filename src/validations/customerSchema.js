@@ -25,7 +25,9 @@ const customerSchema = Joi.object({
   rua: Joi.string().optional().messages({
     'string.base': 'A rua deve ser do tipo texto!'
   }),
-  numero: Joi.number().optional(),
+  numero: Joi.number().optional().messages({
+    'number.base': 'O númerdo da residência deve ser do tipo número.'
+  }),
   bairro: Joi.string().optional().messages({
     'string.base': 'O bairro deve ser do tipo texto!'
   }),
