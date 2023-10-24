@@ -1,11 +1,10 @@
 
 # WIC - Woman in Code
 
+
 Essa é uma RESTful API para um PDV (Ponto de Venda) ou frente de caixa, destinada a controlar categorias, usuários, clientes, produtos e pedidos utilizados por um estabelecimento comercial.
 
 A nossa API permite realizar diversas operações, como o cadastro de usuários, autenticação, cadastro de produtos, edição de dados dos produtos cadastrados, detalhamento de produto, listagem de produtos por categorias, exclusão de produtos cadastrados, cadastro de clientes, edição de dados dos clientes cadastrados, detalhamento de cliente, listagem de clientes e cadastro de pedidos de venda. E tudo isso é gerenciado com o banco de dados PostgreSQL.
-
-
 
 
 ## Índice
@@ -17,6 +16,8 @@ A nossa API permite realizar diversas operações, como o cadastro de usuários,
 - [Documentação da API](#documentação-da-api)
 - [Demonstração](#demonstração)
 - [Autoras](#autoras)
+
+
 ## Stack utilizadas
 
 **Front-end:** Não contemplado
@@ -37,6 +38,8 @@ A nossa API permite realizar diversas operações, como o cadastro de usuários,
 ## Pré-requisitos
 
 Node.js instalado (versão 12 ou superior).
+
+
 ## Sprints
 
 <details>
@@ -67,6 +70,7 @@ Node.js instalado (versão 12 ou superior).
 
 </details>
 
+
 ## Deploy
 
 A aplicação foi implantada com sucesso e está disponível online. Você pode acessá-la através do seguinte link:
@@ -88,7 +92,6 @@ Caso encontre algum problema ou queira contribuir para o projeto, sinta-se à vo
 Lembre-se de que a aplicação está em constante desenvolvimento, e novas funcionalidades podem ser adicionadas no futuro. Agradecemos por visitar e testar a nossa aplicação!
 
 
-
 ## Documentação da API
 
 #### Cadastrar usuário
@@ -102,6 +105,7 @@ Lembre-se de que a aplicação está em constante desenvolvimento, e novas funci
 | `nome` | `string` | **Obrigatório**. Nome do usuário que utilizará o PDV |
 | `email` | `string` | **Obrigatório**. E-mail do usuário que utilizará o PDV |
 | `senha` | `string` | **Obrigatório**. Senha de autenticação do usuário. Deve conter no mínimo 5 caracteres. |
+
 
 #### Realizar login
 
@@ -123,6 +127,7 @@ Lembre-se de que a aplicação está em constante desenvolvimento, e novas funci
 
 Não precisa de nenhuma autenticação nesta rota.
 
+
 #### Detalhar usuário logado
 
 ```http
@@ -132,6 +137,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
+
 
 #### Atualizar dados do usuário logado
 
@@ -146,6 +152,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `email` | `string` | **Obrigatório**. E-mail do usuário. |
 | `senha` | `string` | **Obrigatório**. Senha de autenticação do usuário. Deve conter no mínimo 5 caracteres. |
 
+
 #### Cadastrar produto
 
 ```http
@@ -159,6 +166,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `quantidade_estoque` | `number` | **Obrigatório**. Quantidade do produto em estoque. Deve ser um número positivo inteiro. |
 | `valor` | `number` | **Obrigatório**. Valor do produto. Deve ser um número real positivo. |
 | `categoria_id` | `number` | **Obrigatório**. ID da categoria correspondente. Deve ser um número inteiro positivo. |
+
 
 #### Atualizar dados do produto
 
@@ -175,6 +183,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `valor` | `number` | **Obrigatório**. Valor do produto. Deve ser um número real positivo. |
 | `categoria_id` | `number` | **Obrigatório**. ID da categoria correspondente. Deve ser um número inteiro positivo. |
 
+
 #### Deletar produto
 
 ```http
@@ -185,6 +194,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | :---------- | :--------- | :---------------------------------- |
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
 | `id` | `number` | **Obrigatório**. ID do produto cadastrado. A ser passado como parâmetro na rota. |
+
 
 #### Detalhar produto
 
@@ -197,6 +207,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
 | `id` | `number` | **Obrigatório**. ID do produto cadastrado. A ser passado como parâmetro na rota. |
 
+
 #### Listar produtos cadastrados
 
 ```http
@@ -208,6 +219,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | :---------- | :--------- | :---------------------------------- |
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
 | `categoria_id` | `number` | **Opcional**. A ser passado como parâmetro de consulta na rota.|
+
 
 #### Cadastrar clientes
 
@@ -226,6 +238,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `numero` | `number` | **Opcional**. Número da residência. |
 | `cidade` | `string` | **Opcional**. Nome da Cidade. |
 | `estado` | `string` | **Opcional**. Sigla do Estado. |
+
 
 #### Atualizar dados de clientes cadastrados
 
@@ -246,6 +259,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `cidade` | `string` | **Opcional**. Nome da Cidade. |
 | `estado` | `string` | **Opcional**. Sigla do Estado. |
 
+
 #### Listar clientes cadastrados
 
 ```http
@@ -255,6 +269,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
+
 
 #### Detalhar cliente cadastrado
 
@@ -266,6 +281,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | :---------- | :--------- | :---------------------------------- |
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
 | `id` | `number` | **Obrigatório**. ID do cadastro do cliente. A ser passado como parâmetro na rota. |
+
 
 ## Demonstração
 
