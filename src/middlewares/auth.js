@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 
 const validateAuthentication = async (request, response, next) => {
   try {
-    const { autorizacao } = request.headers;
+    const { authorization } = request.headers;
 
-    if (!autorizacao) {
+    if (!authorization) {
       return response.status(401).json({ message: 'Não autorizado.' });
     }
 
-    const token = autorizacao.split(' ')[1];
+    const token = authorization.split(' ')[1];
 
     const { id } = jwt.verify(token, process.env.SENHA_HASH);
 
