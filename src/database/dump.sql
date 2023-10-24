@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS categorias;
 DROP TABLE IF EXISTS produtos;
 DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS pedidos;
+DROP TABLE IF EXISTS pedido_produtos;
 
 CREATE TABLE usuarios(
     id SERIAL PRIMARY KEY NOT NULL,
@@ -46,3 +48,20 @@ CREATE TABLE clientes (
   cidade VARCHAR(255),
   estado CHAR(2)
 );
+
+CREATE TABLE pedidos (
+  id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+  cliente_id INT NOT NULL REFERENCES clientes(id),
+  observacao TEXT,
+  valor_total FLOAT NOT NULL
+);
+
+CREATE TABLE pedido_produtos(
+  id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+  pedido_id INT NOT NULL REFERENCES pedidos(id),
+  produto_id INT NOT NULL REFERENCES produtos(id),
+  quantidade_produto INT NOT NULL,
+  valor_produto FLOAT NOT NULL
+);
+
+ALTER TABLE produtos ADD produto_imagem TEXT;

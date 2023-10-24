@@ -12,11 +12,10 @@ const customerSchema = Joi.object({
     'string.email': 'O campo e-mail precisa ter um formato válido.',
     'string.base': 'O campo e-mail precisa ter um formato válido.'
   }),
-  cpf: Joi.string().pattern(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$/).required().messages({
+  cpf: Joi.number().required().messages({
     'any.required': 'O campo CPF é obrigatório!',
-    'string.empty': 'O campo CPF é obrigatório!',
-    'string.base': 'O campo CPF deve ser do tipo texto!',
-    'string.pattern.base': 'O campo CPF deve estar no formato "999.999.999-99", pontos e traço!'
+    'number.empty': 'O campo CPF é obrigatório!',
+    'number.base': 'O campo CPF é obrigatório!'
   }),
   cep: Joi.number().optional().min(10000000).max(99999999).messages({
     'number.max': "O CEP deve conter 8 digitos.",
