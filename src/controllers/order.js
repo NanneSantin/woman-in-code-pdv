@@ -1,5 +1,6 @@
 const knex = require('../connection');
-const send = require('../nodemailer');
+const send = require('../services/nodemailer');
+const compilerHtml = require('../utils/compiler');
 
 const registerOrder = async (request, response) => {
     try {
@@ -33,10 +34,14 @@ const registerOrder = async (request, response) => {
 
         const client = await knex('clientes').where('id', cliente_id).first();
 
-        send(client.email, 'STATUS DO PRODUTO0', 'Olá, passando para informar que seu pedido foi realizado com sucesso!')
+        const html = await compilerHtml('./src/template/email.html', {
+            userName: client.nome,
+            id: insertOrder[0].id
+        })
+
+        send(client.email, `Status do Pedido ${insertOrder[0].id}`, html)
 
         return response.status(201).send();
-
     } catch (error) {
         return response.status(500).json({ message: 'Erro interno do servidor.' });
     }

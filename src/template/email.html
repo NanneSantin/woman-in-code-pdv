@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio de Email</title>
+    <style>
+        body {
+            font-family: monospace
+        }
+
+        .newsletter {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="newsletter">
+        <h1>Olá {{userName}}!</h1>
+        <p>O pedido {{id}} foi realizado com sucesso.</p>
+
+        <p>Atenciosamente,<br>WIC</p>
+    </div>
+</body>
+
+</html>

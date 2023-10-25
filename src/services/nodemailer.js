@@ -11,10 +11,10 @@ const transport = nodemailer.createTransport({
 
 const send = (to, subject, body) => {
     transport.sendMail({
-        from: process.env.EMAIL_FROM,
+        from: process.env.MAIL_FROM,
         to,
         subject,
-        text: body
+        html: body
     })
 }
 
