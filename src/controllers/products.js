@@ -127,4 +127,4 @@ module.exports = {
   removeProduct,
   detailProduct,
   listProducts,
-};
+}

@@ -30,7 +30,7 @@ const registerOrder = async (request, response) => {
             const updatedStock = stock.quantidade_estoque - product.quantidade_produto;
             await knex('produtos').where('id', product.produto_id).update('quantidade_estoque', updatedStock);
         });
-        
+
         const client = await knex('clientes').where('id', cliente_id).first();
 
         send(client.email, 'STATUS DO PRODUTO0', 'Olá, passando para informar que seu pedido foi realizado com sucesso!')

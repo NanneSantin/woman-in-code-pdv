@@ -21,6 +21,7 @@ const validateProductIdExist = async (request, response, next) => {
 const validateProductsOrder = async (request, response, next) => {
     try {
         const { pedido_produtos } = request.body;
+
         pedido_produtos.map(async productInOrder => {
             const product = await knex('produtos').where('id', productInOrder.produto_id).first();
 
@@ -46,10 +47,10 @@ const validateProductsStock = async (request, response, next) => {
             const stock = product.quantidade_estoque - productInOrder.quantidade_produto;
 
             if (stock < 0) {
-                return false; 
+                return false;
             }
 
-            return true; 
+            return true;
         });
 
         const results = await Promise.all(promises);
@@ -69,4 +70,4 @@ module.exports = {
     validateProductIdExist,
     validateProductsOrder,
     validateProductsStock
-};
+}
