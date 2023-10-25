@@ -34,9 +34,25 @@ const registerOrder = async (request, response) => {
 
         const client = await knex('clientes').where('id', cliente_id).first();
 
+        const products = await knex.select('pedidos.id', 'produtos.descricao', 'pedido_produtos.quantidade_produto', 'produtos.valor')
+            .from('pedido_produtos')
+            .innerJoin('produtos', 'pedido_produtos.produto_id', 'produtos.id')
+            .innerJoin('pedidos', 'pedido_produtos.pedido_id', 'pedidos.id')
+            .groupBy('pedidos.id', 'produtos.descricao', 'pedido_produtos.quantidade_produto', 'produtos.valor')
+            .where({ pedido_id: insertOrder[0].id });
+
+        const newListProducts = products.map(product => ({
+            produto: product.descricao,
+            quantidade: product.quantidade_produto,
+            valor_unitario: `R$ ${product.valor}`,
+            total: `R$ ${product.quantidade_produto * product.valor}`
+        }));
+
         const html = await compilerHtml('./src/template/email.html', {
             userName: client.nome,
-            id: insertOrder[0].id
+            id: insertOrder[0].id,
+            pedido_produtos: newListProducts,
+            valor_total: `R$ ${totalCost}`
         })
 
         send(client.email, `Status do Pedido ${insertOrder[0].id}`, html)
