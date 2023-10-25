@@ -23,12 +23,14 @@ const validateRequestBody = require('./middlewares/validateRequestBody');
 const validateAuthentication = require('./middlewares/auth');
 const validateCategoryExist = require('./middlewares/validateCategoryExist');
 const validateCustomerExist = require('./middlewares/validateCustomerExist');
-const validateProductIdExist = require('./middlewares/validateProductID');
+const { validateProductIdExist, validateProductsOrder, validateProductsStock } = require('./middlewares/validateProduct');
 
 const loginSchema = require('./validations/loginSchema');
 const userSchema = require('./validations/userSchema');
 const productSchema = require('./validations/productSchema');
 const customerSchema = require('./validations/customerSchema');
+const { registerOrder } = require('./controllers/order');
+const orderSchema = require('./validations/orderSchema');
 
 const route = express();
 
@@ -57,5 +59,7 @@ route.post('/cliente', validateRequestBody(customerSchema), registerCustomer);
 route.put('/cliente/:id', validateRequestBody(customerSchema), validateCustomerExist, updateCustomer);
 route.get('/cliente', listCustomers);
 route.get('/cliente/:id', validateCustomerExist, detailCustomer);
+
+route.post('/pedido', validateRequestBody(orderSchema), validateCustomerExist, validateProductsOrder, validateProductsStock, registerOrder);
 
 module.exports = route;
