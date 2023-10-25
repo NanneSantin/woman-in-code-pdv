@@ -23,7 +23,7 @@ const validateRequestBody = require('./middlewares/validateRequestBody');
 const validateAuthentication = require('./middlewares/auth');
 const validateCategoryExist = require('./middlewares/validateCategoryExist');
 const validateCustomerExist = require('./middlewares/validateCustomerExist');
-const { validateProductIdExist, validateProductsOrder, validateProductsStock } = require('./middlewares/validateProduct');
+const { validateProductIdExist, validateProductsOrder, validateProductsStock, checkIfProductIsInOrders } = require('./middlewares/validateProduct');
 
 const loginSchema = require('./validations/loginSchema');
 const userSchema = require('./validations/userSchema');
@@ -51,7 +51,7 @@ route.put(
   validateCategoryExist,
   updateProduct
 );
-route.delete('/produto/:id', validateProductIdExist, removeProduct);
+route.delete('/produto/:id', validateProductIdExist, checkIfProductIsInOrders, removeProduct);
 route.get('/produto/:id', validateProductIdExist, detailProduct);
 route.get('/produto', validateCategoryExist, listProducts);
 

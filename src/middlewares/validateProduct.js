@@ -26,7 +26,7 @@ const validateProductsOrder = async (request, response, next) => {
             const product = await knex('produtos').where('id', productInOrder.produto_id).first();
 
             if (!product) {
-                return response.status(404).json({ message: 'Um ou mais produto informado não foi encontrado.' });
+                return response.status(404).json({ message: 'Um ou mais produtos informados não foram encontrados.' });
             }
         });
 
@@ -64,8 +64,26 @@ const validateProductsStock = async (request, response, next) => {
     }
 }
 
+const checkIfProductIsInOrders = async (request, response, next) => {
+    const productId = request.params.id;
+
+    try {
+        const order = await knex('pedido_produtos').where('produto_id', productId);
+
+        if (order.length > 0) {
+            return response.status(400).json({ message: 'Este produto não pode ser excluído. Por favor, verifique se ele está vinculado a um pedido.' });
+        }
+
+        next();
+
+    } catch (error) {
+        return response.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
+
 module.exports = {
     validateProductIdExist,
     validateProductsOrder,
-    validateProductsStock
+    validateProductsStock,
+    checkIfProductIsInOrders
 }
