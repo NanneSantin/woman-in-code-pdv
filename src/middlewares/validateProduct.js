@@ -26,12 +26,11 @@ const validateProductsOrder = async (request, response, next) => {
             const product = await knex('produtos').where('id', productInOrder.produto_id).first();
 
             if (!product) {
-                return response.status(404).json({ message: 'Não existe um produto com o ID informado.' });
+                return response.status(404).json({ message: 'Um ou mais produto informado não foi encontrado.' });
             }
         });
 
         next();
-
     } catch (error) {
         return response.status(404).json({ message: 'Erro interno do servidor' });
     }
@@ -60,7 +59,6 @@ const validateProductsStock = async (request, response, next) => {
         }
 
         next();
-
     } catch (error) {
         return response.status(500).json({ message: 'Erro interno do servidor' });
     }
