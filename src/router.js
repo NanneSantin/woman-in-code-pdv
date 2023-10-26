@@ -92,6 +92,6 @@ route.post(
   registerOrder
 );
 
-route.get('/pedido', listOrders);
+route.get('/pedido', validateCustomerExist, listOrders);
 
 module.exports = route;
