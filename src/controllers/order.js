@@ -90,7 +90,7 @@ const registerOrder = async (request, response) => {
 
     send(client.email, `Status do Pedido ${insertOrder[0].id}`, html);
 
-    return response.status(201).send();
+    return response.status(201).json(products);
   } catch (error) {
     return response.status(500).json({ message: 'Erro interno do servidor.' });
   }
