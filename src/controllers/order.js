@@ -2,10 +2,6 @@ const knex = require('../connection');
 const send = require('../services/nodemailer');
 const compilerHtml = require('../utils/compiler');
 
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-})
-
 const registerOrder = async (request, response) => {
   try {
     const { cliente_id, observacao, pedido_produtos } = request.body;
@@ -110,7 +106,7 @@ const listOrders = async (request, response) => {
     if (cliente_id) {
       query = knex('pedidos')
         .select('id as pedido_id', 'valor_total', 'observacao', 'cliente_id')
-        .where('cliente_id', request.query.cliente_id);
+        .where('cliente_id', cliente_id);
     } else {
       query = knex('pedidos').select(
         'id as pedido_id',
