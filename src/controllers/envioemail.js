@@ -1,3 +1,4 @@
+const send = require('../services/nodemailer');
 const compilerHtml = require("../utils/compiler");
 
 const envioDeEmail = async (request, response) => {
