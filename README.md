@@ -1,3 +1,4 @@
+![Logo](./assets/images/logo.png)
 
 # WIC - Woman in Code
 
@@ -14,6 +15,7 @@ A nossa API permite realizar diversas operações, como o cadastro de usuários,
 - [Sprints](#sprints)
 - [Deploy](#deploy)
 - [Documentação da API](#documentação-da-api)
+- [Exemplo de envio de e-mail](#exemplo-de-envio-de-e-mail)
 - [Demonstração](#demonstração)
 - [Autoras](#autoras)
 
@@ -166,6 +168,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `quantidade_estoque` | `number` | **Obrigatório**. Quantidade do produto em estoque. Deve ser um número positivo inteiro. |
 | `valor` | `number` | **Obrigatório**. Valor do produto. Deve ser um número real positivo. |
 | `categoria_id` | `number` | **Obrigatório**. ID da categoria correspondente. Deve ser um número inteiro positivo. |
+| `produto_imagem` | `file` | **Opcional**. Pode ser anexado uma imagem para ser salva no banco de dados. É salvo a URL do local onde a imagem ficará hospedada. |
 
 
 #### Atualizar dados do produto
@@ -182,6 +185,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | `quantidade_estoque` | `number` | **Obrigatório**. Quantidade do produto em estoque. Deve ser um número positivo inteiro. |
 | `valor` | `number` | **Obrigatório**. Valor do produto. Deve ser um número real positivo. |
 | `categoria_id` | `number` | **Obrigatório**. ID da categoria correspondente. Deve ser um número inteiro positivo. |
+| `produto_imagem` | `file` | **Opcional**. Pode ser anexado uma imagem para ser salva no banco de dados. É salvo a URL do local onde a imagem ficará hospedada. |
 
 
 #### Deletar produto
@@ -193,7 +197,7 @@ Não precisa de nenhuma autenticação nesta rota.
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
-| `id` | `number` | **Obrigatório**. ID do produto cadastrado. A ser passado como parâmetro na rota. |
+| `id` | `number` | **Obrigatório**. ID do produto cadastrado. A ser passado como parâmetro na rota. Só é permitido deletar produtos que não tiverem pedidos vinculados. |
 
 
 #### Detalhar produto
@@ -282,11 +286,38 @@ Não precisa de nenhuma autenticação nesta rota.
 | `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
 | `id` | `number` | **Obrigatório**. ID do cadastro do cliente. A ser passado como parâmetro na rota. |
 
+#### Cadastrar Pedido
 
-## Demonstração
+```http
+  POST /pedido
+```
 
-A inserir um vídeo ou gif.
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
+| `cliente_id` | `number` | **Obrigatório**. ID do cadastro do cliente. |
+| `observacao` | `string` | **Opcional**. Observações referente ao pedido. |
+| `pedido_produtos` | `array` | **Obrigatório**. Array de objeto com produtos e suas respectivas quantidades. Precisa conter pelo menos um objeto no array. |
+| `produto_id` | `number` | **Obrigatório**. Propriedade do objeto a ser passado no array pedido_produtos. Referente o ID do produto. |
+| `quantidade_produto` | `number` | **Obrigatório**. Propriedade do objeto a ser passado no array pedido_produtos. Referente a quantidade adquirida do produto e deve ser maior que 0. |
 
+#### Listar Pedidos
+
+```http
+  GET /pedido
+  GET /pedido?cliente_id=${num}
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `token`      | `string` | **Obrigatório**. Token retornado ao usuário após realizar login. |
+| `cliente_id` | `number` | **Opcional**. A ser passado como parâmetro de consulta na rota.|
+
+### Exemplo de envio de e-mail
+
+Demonstração da caixa de e-mails enviados ao realizar o cadastro do pedido.
+
+![caixa de e-mail](./assets/images/envio-emails.png)
 
 ## Autoras
 

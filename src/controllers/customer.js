@@ -56,7 +56,7 @@ const updateCustomer = async (request, response) => {
 
 const listCustomers = async (request, response) => {
     try {
-        const list = await knex('clientes').select('nome', 'email', 'cpf');
+        const list = await knex('clientes').select('id', 'nome', 'email', 'cpf').orderBy('id', 'asc');
 
         return response.status(200).json(list);
     } catch (error) {

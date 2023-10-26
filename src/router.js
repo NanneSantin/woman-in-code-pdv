@@ -9,26 +9,34 @@ const {
   updateProduct,
   removeProduct,
   detailProduct,
-  listProducts
+  listProducts,
 } = require('./controllers/products');
 
 const {
   registerCustomer,
   updateCustomer,
   listCustomers,
-  detailCustomer
+  detailCustomer,
 } = require('./controllers/customer');
 
 const validateRequestBody = require('./middlewares/validateRequestBody');
 const validateAuthentication = require('./middlewares/auth');
 const validateCategoryExist = require('./middlewares/validateCategoryExist');
 const validateCustomerExist = require('./middlewares/validateCustomerExist');
-const validateProductIdExist = require('./middlewares/validateProductID');
+const {
+  validateProductIdExist,
+  validateProductsOrder,
+  validateProductsStock,
+  checkIfProductIsInOrders,
+} = require('./middlewares/validateProduct');
 
 const loginSchema = require('./validations/loginSchema');
 const userSchema = require('./validations/userSchema');
 const productSchema = require('./validations/productSchema');
 const customerSchema = require('./validations/customerSchema');
+const { registerOrder, listOrders } = require('./controllers/order');
+const orderSchema = require('./validations/orderSchema');
+const multer = require('./settings/multer');
 
 const route = express();
 
@@ -41,21 +49,49 @@ route.use(validateAuthentication);
 route.get('/usuario', detailUser);
 route.put('/usuario', validateRequestBody(userSchema), updateUser);
 
-route.post('/produto', validateRequestBody(productSchema), validateCategoryExist, registerProduct);
+route.post(
+  '/produto',
+  multer.single('produto_imagem'),
+  validateRequestBody(productSchema),
+  validateCategoryExist,
+  registerProduct
+);
 route.put(
   '/produto/:id',
+  multer.single('produto_imagem'),
   validateRequestBody(productSchema),
   validateProductIdExist,
   validateCategoryExist,
   updateProduct
 );
-route.delete('/produto/:id', validateProductIdExist, removeProduct);
+route.delete(
+  '/produto/:id',
+  validateProductIdExist,
+  checkIfProductIsInOrders,
+  removeProduct
+);
 route.get('/produto/:id', validateProductIdExist, detailProduct);
 route.get('/produto', validateCategoryExist, listProducts);
 
 route.post('/cliente', validateRequestBody(customerSchema), registerCustomer);
-route.put('/cliente/:id', validateRequestBody(customerSchema), validateCustomerExist, updateCustomer);
+route.put(
+  '/cliente/:id',
+  validateRequestBody(customerSchema),
+  validateCustomerExist,
+  updateCustomer
+);
 route.get('/cliente', listCustomers);
 route.get('/cliente/:id', validateCustomerExist, detailCustomer);
+
+route.post(
+  '/pedido',
+  validateRequestBody(orderSchema),
+  validateCustomerExist,
+  validateProductsOrder,
+  validateProductsStock,
+  registerOrder
+);
+
+route.get('/pedido', listOrders);
 
 module.exports = route;

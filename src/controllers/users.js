@@ -52,12 +52,12 @@ const updateUser = async (request, response) => {
 
     return response.status(200).json(updatedUser[0]);
   } catch (error) {
-    return response.status(500).json({ message: "Erro interno do servidor." });
+    return response.status(500).json({ message: 'Erro interno do servidor.' });
   }
-};
+}
 
 module.exports = {
   registerUser,
   detailUser,
   updateUser,
-};
+}
