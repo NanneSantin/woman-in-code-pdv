@@ -37,6 +37,7 @@ const customerSchema = require('./validations/customerSchema');
 const { registerOrder, listOrders } = require('./controllers/order');
 const orderSchema = require('./validations/orderSchema');
 const multer = require('./settings/multer');
+const envioDeEmail = require('./controllers/envioemail');
 
 const route = express();
 
@@ -93,5 +94,6 @@ route.post(
 );
 
 route.get('/pedido', validateCustomerExist, listOrders);
+route.get('/email', envioDeEmail)
 
 module.exports = route;
