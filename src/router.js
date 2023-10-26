@@ -36,6 +36,7 @@ const productSchema = require('./validations/productSchema');
 const customerSchema = require('./validations/customerSchema');
 const { registerOrder, listOrders } = require('./controllers/order');
 const orderSchema = require('./validations/orderSchema');
+const multer = require('./settings/multer');
 
 const route = express();
 
@@ -50,12 +51,14 @@ route.put('/usuario', validateRequestBody(userSchema), updateUser);
 
 route.post(
   '/produto',
+  multer.single('produto_imagem'),
   validateRequestBody(productSchema),
   validateCategoryExist,
   registerProduct
 );
 route.put(
   '/produto/:id',
+  multer.single('produto_imagem'),
   validateRequestBody(productSchema),
   validateProductIdExist,
   validateCategoryExist,
