@@ -1,8 +1,10 @@
 const knex = require('../connection');
+const {uploadFile, removeFile} = require('../storage')
 
 const registerProduct = async (request, response) => {
   try {
     const { descricao, quantidade_estoque, valor, categoria_id } = request.body;
+    const produto_imagem = request.file
 
     const productExist = await knex('produtos')
       .where({ descricao })
@@ -17,6 +19,24 @@ const registerProduct = async (request, response) => {
       .insert({ descricao, quantidade_estoque, valor, categoria_id })
       .returning('*');
 
+      if(produto_imagem){
+        try {
+          const id_product = insertProduct[0].id
+
+          const imageProduct = await uploadFile(
+            `products/${id_product}/${produto_imagem.originalname}`,
+            produto_imagem.buffer,
+            produto_imagem.mimetype
+          )
+
+          const updateImage = await knex('produtos').update('produto_imagem', imageProduct.produto_imagem).where('id', id_product).returning('*');
+
+          return response.status(201).json(updateImage[0]);
+        } catch (error) {
+          return response.status(500).json({ message: 'Erro interno do servidor.' });
+        }
+      }
+
     return response.status(201).json(insertProduct[0]);
   } catch (error) {
     return response.status(500).json({ message: 'Erro interno do servidor.' });
@@ -27,6 +47,7 @@ const updateProduct = async (request, response) => {
   try {
     const { descricao, quantidade_estoque, valor, categoria_id } = request.body;
     const { id } = request.params;
+    const produto_imagem = request.file;
 
     const descriptionExist = await knex('produtos')
       .where({ descricao })
@@ -36,6 +57,31 @@ const updateProduct = async (request, response) => {
 
     if (descriptionExist) {
       return response.status(409).json({ mensagem: 'Produto já cadastrado.' });
+    }
+
+    if(produto_imagem){
+      try {
+        const product = await knex('produtos')
+          .where({ id })
+          .first();
+
+
+        const pathIndex = product.produto_imagem.indexOf(product.id);
+        const path =  product.produto_imagem.slice(pathIndex);
+        await removeFile(`products/${path}`);
+
+        const imageProduct = await uploadFile(
+          `products/${id}/${produto_imagem.originalname}`,
+          produto_imagem.buffer,
+          produto_imagem.mimetype
+        )
+
+        const updateImage = await knex('produtos').update({ descricao, quantidade_estoque, valor, categoria_id, produto_imagem: imageProduct.produto_imagem }).where({id}).returning('*');
+
+        return response.status(201).json(updateImage[0]);
+      } catch (error) {
+        return response.status(500).json({ message: 'Erro interno do servidor.' });
+      }
     }
 
     const updatedProduct = await knex('produtos')
@@ -53,11 +99,15 @@ const removeProduct = async (request, response) => {
   try {
     const { id } = request.params;
 
-    await knex('produtos')
+    const sim = await knex('produtos')
       .where({ id })
       .delete()
       .returning('*');
 
+    const pathIndex = sim[0].produto_imagem.indexOf(sim[0].id)
+    const path =  sim[0].produto_imagem.slice(pathIndex)
+    await removeFile(`products/${path}`);
+      
     return response
       .status(200)
       .json({ mensagem: 'Produto excluído com sucesso!' });
