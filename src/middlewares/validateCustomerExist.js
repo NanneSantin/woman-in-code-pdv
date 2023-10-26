@@ -3,9 +3,17 @@ const knex = require('../connection')
 const validateCustomerExist = async (request, response, next) => {
     try {
         const { cliente_id: cliente_id_body } = request.body;
+        const { cliente_id: cliente_id_query } = request.query;
         const { id: cliente_id_params } = request.params;
 
-        const id = cliente_id_body ? cliente_id_body : cliente_id_params;
+        let id;
+        if (cliente_id_body) {
+            id = cliente_id_body;
+        } else if (cliente_id_query) {
+            id = cliente_id_query;
+        } else {
+            id = cliente_id_params;
+        }
 
         const customerExist = await knex('clientes').where({ id }).first();
 
