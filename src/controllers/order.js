@@ -54,43 +54,41 @@ const registerOrder = async (request, response) => {
         .update('quantidade_estoque', updatedStock);
     });
 
-    const client = await knex('clientes').where('id', cliente_id).first();
+    // const client = await knex('clientes').where('id', cliente_id).first();
 
-    const products = await knex
-      .select(
-        'pedidos.id',
-        'produtos.descricao',
-        'pedido_produtos.quantidade_produto',
-        'produtos.valor'
-      )
-      .from('pedido_produtos')
-      .innerJoin('produtos', 'pedido_produtos.produto_id', 'produtos.id')
-      .innerJoin('pedidos', 'pedido_produtos.pedido_id', 'pedidos.id')
-      .groupBy(
-        'pedidos.id',
-        'produtos.descricao',
-        'pedido_produtos.quantidade_produto',
-        'produtos.valor'
-      )
-      .where({ pedido_id: insertOrder[0].id });
+    // const products = await knex
+    //   .select(
+    //     'pedidos.id',
+    //     'produtos.descricao',
+    //     'pedido_produtos.quantidade_produto',
+    //     'produtos.valor'
+    //   )
+    //   .from('pedido_produtos')
+    //   .innerJoin('produtos', 'pedido_produtos.produto_id', 'produtos.id')
+    //   .innerJoin('pedidos', 'pedido_produtos.pedido_id', 'pedidos.id')
+    //   .groupBy(
+    //     'pedidos.id',
+    //     'produtos.descricao',
+    //     'pedido_produtos.quantidade_produto',
+    //     'produtos.valor'
+    //   )
+    //   .where({ pedido_id: insertOrder[0].id });
 
+    // const newListProducts = products.map((product) => ({
+    //   produto: product.descricao,
+    //   quantidade: product.quantidade_produto,
+    //   valor_unitario: product.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+    //   total: (product.quantidade_produto * product.valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+    // }));
 
+    // const html = await compilerHtml('./src/template/email.html', {
+    //   userName: client.nome,
+    //   id: insertOrder[0].id,
+    //   pedido_produtos: newListProducts,
+    //   valor_total: totalCost.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+    // });
 
-    const newListProducts = products.map((product) => ({
-      produto: product.descricao,
-      quantidade: product.quantidade_produto,
-      valor_unitario: product.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-      total: (product.quantidade_produto * product.valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-    }));
-
-    const html = await compilerHtml('./src/template/email.html', {
-      userName: client.nome,
-      id: insertOrder[0].id,
-      pedido_produtos: newListProducts,
-      valor_total: totalCost.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-    });
-
-    send(client.email, `Status do Pedido ${insertOrder[0].id}`, html);
+    // send(client.email, `Status do Pedido ${insertOrder[0].id}`, html);
 
     return response.status(201).send();
   } catch (error) {
