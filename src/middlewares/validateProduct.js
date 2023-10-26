@@ -32,6 +32,7 @@ const validateProductsOrder = async (request, response, next) => {
 
         next();
     } catch (error) {
+        console.log('Quebrou na validação dos produtos', error.message);
         return response.status(404).json({ message: 'Erro interno do servidor' });
     }
 }
@@ -60,6 +61,7 @@ const validateProductsStock = async (request, response, next) => {
 
         next();
     } catch (error) {
+        console.log('Quebrou na validacao do estoque', error.message);
         return response.status(500).json({ message: 'Erro interno do servidor' });
     }
 }

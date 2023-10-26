@@ -94,6 +94,7 @@ const registerOrder = async (request, response) => {
 
     return response.status(201).send();
   } catch (error) {
+    console.log('Passou os middlewares', error.message);
     return response.status(500).json({ message: 'Erro interno do servidor.' });
   }
 }

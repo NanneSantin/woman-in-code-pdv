@@ -23,6 +23,7 @@ const validateCustomerExist = async (request, response, next) => {
 
         next();
     } catch (error) {
+        console.log('Quebrou na validação do cliente', error.message);
         return response.status(500).json({ message: 'Erro interno do servidor.' });
     }
 }
