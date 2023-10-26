@@ -6,6 +6,8 @@ const validateCustomerExist = async (request, response, next) => {
         const { cliente_id: cliente_id_query } = request.query;
         const { id: cliente_id_params } = request.params;
 
+        console.log(cliente_id_query);
+
         let id;
         if (cliente_id_body) {
             id = cliente_id_body;
