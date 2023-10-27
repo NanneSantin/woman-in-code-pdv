@@ -6,8 +6,6 @@ const registerProduct = async (request, response) => {
     const { descricao, quantidade_estoque, valor, categoria_id } = request.body;
     const produto_imagem = request.file
 
-    const image = produto_imagem.originalname.split(' ').join('-');
-
     const productExist = await knex('produtos')
       .where({ descricao })
       .returning('*')
@@ -23,6 +21,7 @@ const registerProduct = async (request, response) => {
 
     if (produto_imagem) {
       try {
+        const image = produto_imagem.originalname.split(' ').join('-');
         const id_product = insertProduct[0].id
 
         const imageProduct = await uploadFile(
@@ -51,8 +50,6 @@ const updateProduct = async (request, response) => {
     const { id } = request.params;
     const produto_imagem = request.file;
 
-    const image = produto_imagem.originalname.split(' ').join('-');
-
     const descriptionExist = await knex('produtos')
       .where({ descricao })
       .andWhere('id', '!=', id)
@@ -65,6 +62,8 @@ const updateProduct = async (request, response) => {
 
     if (produto_imagem) {
       try {
+        const image = produto_imagem.originalname.split(' ').join('-');
+
         const product = await knex('produtos')
           .where({ id })
           .first();
@@ -86,7 +85,6 @@ const updateProduct = async (request, response) => {
 
         return response.status(201).json(updateImage[0]);
       } catch (error) {
-        console.log(error.message);
         return response.status(500).json({ message: 'Erro interno do servidor.' });
       }
     }
